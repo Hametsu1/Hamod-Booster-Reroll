@@ -3,7 +3,7 @@ HBR.create_UIBox = function(self)
     if not G.GAME.booster_rerolls_total or G.GAME.booster_rerolls_total == 0 then return false end
 
     local reroll_display_color = G.C.WHITE
-    if G.GAME.booster_rerolls_total == 0 then
+    if G.GAME.booster_rerolls == 0 then
         reroll_display_color = G.C.RED
     end
     
@@ -116,7 +116,11 @@ HBR.create_UIBox = function(self)
                         {n=G.UIT.R, config={align = "cm", maxw = 1.3},
                             nodes=
                             {
-                                {n=G.UIT.T, config={ref_table = G.GAME, ref_value = 'booster_rerolls', scale = 0.4, colour = reroll_display_color, shadow = true, func = 'set_button_pip'}}
+                                {n=G.UIT.T, config={ref_table = G.GAME, ref_value = 'booster_rerolls', scale = 0.4, colour = reroll_display_color, shadow = true, func = 'set_button_pip'}},
+                                {n=G.UIT.T, config={text = '/', scale = 0.35, colour = G.C.WHITE, shadow = true, func = 'set_button_pip'}},
+                                {n=G.UIT.T, config={ref_table = G.GAME, ref_value = 'booster_rerolls_total', scale = 0.35, colour = G.C.WHITE, shadow = true, func = 'set_button_pip'}},
+
+
                             }
                         }
                     }

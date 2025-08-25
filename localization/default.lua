@@ -4,7 +4,7 @@ return {
             b_hamod_booster_reroll_reroll = {
                 name = "Reroll Deck",
                 text = {
-                    "Start with {C:green}+3{} to {C:attention}Booster Reroll{}"
+                    "Start with {C:green}+#1#{} to {C:attention}Booster Reroll{}"
                 }
             }
         },
