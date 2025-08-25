@@ -45,6 +45,12 @@ add_booster_rerolls(amount)
 reset_booster_rerolls()
 ```
 
+The tooltip can be included in the ``loc_vars`` function of another GameObject like this:
+
+```lua
+info_queue[#info_queue+1] = {key = "tt_booster_reroll", set = "Other"}
+```
+
 Boosters allow rerolling by default, but modded Boosters can set the property ``disable_reroll`` to disable the functionality.
 
 ### Example:
