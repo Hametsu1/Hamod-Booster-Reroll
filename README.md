@@ -45,7 +45,7 @@ add_booster_rerolls(amount)
 reset_booster_rerolls()
 ```
 
-Boosters allow rerolling by default, but modded Boosters can set the property ``disable_rerolls`` to disable the functionality.
+Boosters allow rerolling by default, but modded Boosters can set the property ``disable_reroll`` to disable the functionality.
 
 ### Example:
 ```lua
