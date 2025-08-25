@@ -225,3 +225,12 @@ function reset_booster_rerolls()
     if not G.GAME.booster_rerolls_total then G.GAME.booster_rerolls_total = 0 end
     G.GAME.booster_rerolls = G.GAME.booster_rerolls_total
 end
+
+-- Load test deck, if it's there
+local init, error = SMODS.load_file("test_deck.lua")
+if error then
+    print("HBR: Test deck not found. Skip")
+else
+    if init then init() end
+    print("HBR: Test deck loaded")
+end

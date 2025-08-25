@@ -1,5 +1,13 @@
 return {
     descriptions = {
+        Back = {
+            b_hamod_booster_reroll_reroll = {
+                name = "Reroll Deck",
+                text = {
+                    "Start with {C:green}+3{} to {C:attention}Booster Reroll{}"
+                }
+            }
+        },
         Other = {
             tt_booster_reroll = {
                 name = 'Booster Reroll',
