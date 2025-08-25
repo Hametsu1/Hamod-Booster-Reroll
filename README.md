@@ -2,7 +2,7 @@
 
 A **Steamodded (smods)** mod for **Balatro** that adds two new buttons to Boosters:  
 
-- **Reroll** – Rerolls the contents of the booster  
+- **Reroll** – Rerolls the contents of the Booster  
 - **Redraw** – Redraw hand (only enabled when the Booster draws cards from the deck)
 
 It also exposes a simple API so other mods can integrate reroll functionality.  
@@ -44,6 +44,8 @@ add_booster_rerolls(amount)
 -- Resets the number of remaining rerolls to the number of total rerolls
 reset_booster_rerolls()
 ```
+
+Boosters allow rerolling by default, but modded Boosters can set the property ``disable_rerolls`` to disable the functionality.
 
 ### Example:
 ```lua
