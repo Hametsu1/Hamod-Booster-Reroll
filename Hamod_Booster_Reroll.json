@@ -1,0 +1,13 @@
+{
+  "id": "Hamod_Booster_Reroll",
+  "name": "Hamod_Booster_Reroll",
+  "display_name": "Hamod Booster Reroll",
+  "author": ["Hametsu"],
+  "description": "Adds functionality for rerolls when opening a Booster",
+  "prefix": "hamod_booster_reroll",
+  "main_file": "Hamod_Booster_Reroll.lua",
+  "priority": 1,
+  "badge_colour": "56435c",
+  "version": "1.0",
+  "dependencies": ["Steamodded (>=1.0.0~BETA-0711a)"]
+}

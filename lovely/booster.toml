@@ -1,0 +1,30 @@
+[manifest]
+version = "1.0.0"
+priority = 2147483600
+
+[[patches]]
+[patches.pattern]
+target = '''=[SMODS _ "src/game_object.lua"]'''
+match_indent = false
+pattern = '''
+create_UIBox = function(self)
+'''
+position = 'after'
+payload = '''
+local hamod_booster_reroll_ui = HBR and HBR.create_UIBox and HBR.create_UIBox(self)
+if hamod_booster_reroll_ui then return hamod_booster_reroll_ui end
+'''
+times = 1
+
+[[patches]]
+[patches.pattern]
+target = 'functions/button_callbacks.lua'
+match_indent = true
+pattern = '''
+if G.GAME.round_resets.blind_states.Boss == 'Defeated' then
+'''
+position = 'after'
+payload = '''
+reset_booster_rerolls()
+'''
+times = 1
