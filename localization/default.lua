@@ -4,7 +4,7 @@ return {
             b_hamod_booster_reroll_reroll = {
                 name = "Reroll Deck",
                 text = {
-                    "Start with {C:green}+#1#{} to {C:attention}Booster Reroll{}"
+                    "Start with {C:green}+#1#{} {C:attention}Booster Rerolls{}"
                 }
             }
         },
@@ -12,15 +12,17 @@ return {
             tt_booster_reroll = {
                 name = 'Booster Reroll',
                 text = {
-                    "Use {C:attention}Reroll{} when opening a {C:tarot}Booster{} to",
-                    "reroll it's contents. {C:attention}Rerolls{} reset at the start of each {C:attention}Ante{}"
+                    "Use {C:attention}Reroll{} when opening a {C:tarot}Booster{}",
+                    "to reroll it's contents. {C:attention}Rerolls{} reset",
+                    "at the start of each {C:attention}Ante{}"
                 }
             },
             tt_booster_redraw = {
                 name = 'Booster Redraw',
                 text = {
-                    "Use {C:attention}Redraw{} when opening a {C:tarot}Booster{} to",
-                    "redraw your hand from deck. {C:attention}Redraws{} reset at the start of each {C:attention}Ante{}",
+                    "Use {C:attention}Redraw{} when opening a {C:tarot}Booster{}",
+                    "to redraw your hand from deck. {C:attention}Redraws{} reset",
+                    "at the start of each {C:attention}Ante{}"
                 }
             }
         }

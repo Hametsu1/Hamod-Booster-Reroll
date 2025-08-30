@@ -160,6 +160,7 @@ G.FUNCS.can_reroll_pack = function(e)
 end
 
 G.FUNCS.reroll_pack = function(e)
+    toggle_reroll_lock({rerolls = true})
     stop_use()
     local c1 = e.config.ref_table
     G.GAME.booster_rerolls = G.GAME.booster_rerolls - 1
@@ -190,12 +191,13 @@ G.FUNCS.reroll_pack = function(e)
             end
             return true
         end
-    }))  
+    }))
+    toggle_reroll_lock({rerolls = true})
 end
 
 G.FUNCS.can_redraw_hand = function(e)
     local c1 = e.config.ref_table
-    if #G.hand.cards > 0 and G.pack_cards and (G.pack_cards.cards[1]) and G.GAME.booster_redraws > 0 and not HBR.is_redrawing_disabled(c1) then 
+    if #G.hand.cards > 0 and G.hand.cards[1] and G.pack_cards and (G.pack_cards.cards[1]) and G.GAME.booster_redraws > 0 and not HBR.is_redrawing_disabled(c1) then 
         e.config.colour = G.C.PALE_GREEN
         e.config.button = 'redraw_hand' 
     else
@@ -205,6 +207,7 @@ G.FUNCS.can_redraw_hand = function(e)
 end
 
 G.FUNCS.redraw_hand = function(e)
+    toggle_reroll_lock({redraws = true})
     stop_use()
     local c1 = e.config.ref_table
     local card_count = #G.hand.cards
@@ -220,14 +223,27 @@ G.FUNCS.redraw_hand = function(e)
             return true
         end
     }))
+    toggle_reroll_lock({redraws = true})
 end
 
 HBR.is_rerolling_disabled = function(booster)
-    return booster.disable_reroll
+    return booster.disable_reroll or G.GAME.booster_rerolls_locked
 end
 
 HBR.is_redrawing_disabled = function(booster)
-    return booster.disable_redraw
+    return booster.disable_redraw or G.GAME.booster_redraws_locked
+end
+
+function toggle_reroll_lock(args)
+    if not args then args = {rerolls = true, redraws = true} end
+    
+    if args.rerolls then
+        G.GAME.booster_rerolls_locked = not G.GAME.booster_rerolls_locked
+    end
+
+    if args.redraws then
+        G.GAME.booster_redraws_locked = not G.GAME.booster_redraws_locked
+    end
 end
 
 function add_booster_rerolls(args)
@@ -241,7 +257,7 @@ function add_booster_rerolls(args)
         args = {rerolls = args, redraws = args}
     end
     
-    if not args or (not args.rerolls and not args.rerolls) then return end
+    if not args or (not args.rerolls and not args.redraws) then return end
 
     local rerolls = args.rerolls or 0
     local redraws = args.redraws or 0
