@@ -229,38 +229,46 @@ HBR.is_redrawing_disabled = function(booster)
     return booster.disable_redraw
 end
 
-function add_booster_rerolls(rerolls, redraws)
-    if redraws then add_booster_redraws(redraws) end
+function add_booster_rerolls(args)
     if not G.GAME.booster_rerolls_total then G.GAME.booster_rerolls_total = 0 end
     if not G.GAME.booster_rerolls then G.GAME.booster_rerolls = G.GAME.booster_rerolls_total end
-    
-    if rerolls == 0 then return end
-    
-    G.GAME.booster_rerolls_total = G.GAME.booster_rerolls_total + rerolls
-    if G.GAME.booster_rerolls_total < 0 then G.GAME.booster_rerolls_total = 0 end
 
-    if G.GAME.booster_rerolls > G.GAME.booster_rerolls_total then G.GAME.booster_rerolls = G.GAME.booster_rerolls_total
-    elseif rerolls > 0 then G.GAME.booster_rerolls = G.GAME.booster_rerolls + rerolls end
+    if args and type(args) == 'number' then
+        args = {rerolls = args, redraws = args}
+    end
+    
+    if not args or (not args.rerolls and not args.rerolls) then return end
+
+    local rerolls = args.rerolls or 0
+    local redraws = args.redraws or 0
+    
+    if rerolls and type(rerolls) == 'number' and rerolls ~= 0 then
+        G.GAME.booster_rerolls_total = G.GAME.booster_rerolls_total + rerolls
+        if G.GAME.booster_rerolls_total < 0 then G.GAME.booster_rerolls_total = 0 end
+
+        if G.GAME.booster_rerolls > G.GAME.booster_rerolls_total then G.GAME.booster_rerolls = G.GAME.booster_rerolls_total
+        elseif rerolls > 0 then G.GAME.booster_rerolls = G.GAME.booster_rerolls + rerolls end
+    end
+
+    if redraws and type(redraws) == 'number' and redraws ~= 0 then
+        G.GAME.booster_redraws_total = G.GAME.booster_redraws_total + redraws
+        if G.GAME.booster_redraws_total < 0 then G.GAME.booster_redraws_total = 0 end
+
+        if G.GAME.booster_redraws > G.GAME.booster_redraws_total then G.GAME.booster_redraws = G.GAME.booster_redraws_total
+        elseif redraws > 0 then G.GAME.booster_redraws = G.GAME.booster_redraws + redraws end
+    end 
 end
 
-function add_booster_redraws(amount)
-    if not G.GAME.booster_redraws_total then G.GAME.booster_redraws_total = 0 end
-    if not G.GAME.booster_redraws then G.GAME.booster_redraws = G.GAME.booster_redraws_total end
-    
-    if amount == 0 then return end
-    
-    G.GAME.booster_redraws_total = G.GAME.booster_redraws_total + amount
-    if G.GAME.booster_redraws_total < 0 then G.GAME.booster_redraws_total = 0 end
+function reset_booster_rerolls(args)
+    if not args or args.rerolls == true then
+        if not G.GAME.booster_rerolls_total then G.GAME.booster_rerolls_total = 0 end
+        G.GAME.booster_rerolls = G.GAME.booster_rerolls_total
+    end
 
-    if G.GAME.booster_redraws > G.GAME.booster_redraws_total then G.GAME.booster_redraws = G.GAME.booster_redraws_total
-    elseif amount > 0 then G.GAME.booster_redraws = G.GAME.booster_redraws + amount end
-end
-
-function reset_booster_rerolls()
-    if not G.GAME.booster_rerolls_total then G.GAME.booster_rerolls_total = 0 end
-    if not G.GAME.booster_redraws_total then G.GAME.booster_redraws_total = 0 end
-    G.GAME.booster_rerolls = G.GAME.booster_rerolls_total
-    G.GAME.booster_redraws = G.GAME.booster_redraws_total
+    if not args or args.redraws == true then
+        if not G.GAME.booster_redraws_total then G.GAME.booster_redraws_total = 0 end
+        G.GAME.booster_redraws = G.GAME.booster_redraws_total
+    end
 end
 
 -- Load test deck, if it's there
