@@ -3,8 +3,12 @@ HBR.create_UIBox = function(self)
     if not G.GAME.booster_rerolls_total or G.GAME.booster_rerolls_total == 0 then return false end
 
     local reroll_display_color = G.C.WHITE
+    local redraw_display_color = G.C.WHITE
     if G.GAME.booster_rerolls == 0 then
         reroll_display_color = G.C.RED
+    end
+    if G.GAME.booster_redraws == 0 then
+        redraw_display_color = G.C.RED
     end
     
     local _size = math.max(1, SMODS.OPENED_BOOSTER.ability.extra + (G.GAME.modifiers.booster_size_mod or 0))
@@ -47,88 +51,99 @@ HBR.create_UIBox = function(self)
             nodes=
             {
                 {n=G.UIT.C,config={align = "cm", padding = 0},
-                    nodes = {
+                    nodes =
+                    {
                         -- Reroll pack button
-                        {
-                            n=G.UIT.R,
-                            config={
-                                ref_table = self,
-                                align = "tm",
-                                padding = 0.15,
-                                minh = 0.30,
-                                minw = 1.55,
-                                r=0.15,
-                                colour = G.C.RED,
-                                one_press = false,
-                                button = 'reroll_pack',
-                                hover = true,
-                                shadow = true,
-                                func = 'can_reroll_pack'
-                            }, 
-                            nodes = {
+                        {n=G.UIT.R,config={align = "cm", padding = 0.03},
+                            nodes =
+                            {
                                 {
-                                    n=G.UIT.R,
-                                    config={align = "cm", maxw = 1.3},
-                                    nodes={
+                                    n=G.UIT.C,
+                                    config={
+                                        ref_table = self,
+                                        align = "cm",
+                                        padding = 0.11,
+                                        minh = 0.20,
+                                        minw = 1.55,
+                                        r=0.12,
+                                        colour = G.C.RED,
+                                        one_press = false,
+                                        button = 'reroll_pack',
+                                        hover = true,
+                                        shadow = true,
+                                        func = 'can_reroll_pack'
+                                    }, 
+                                    nodes = {
                                         {
-                                            n=G.UIT.T,
-                                            config={text = localize('k_reroll'), scale = 0.4, colour = G.C.WHITE, shadow = true, func = 'set_button_pip'}
+                                            n=G.UIT.R,
+                                            config={align = "cm", maxw = 1.3},
+                                            nodes={
+                                                {
+                                                    n=G.UIT.T,
+                                                    config={text = localize('k_reroll'), scale = 0.35, colour = G.C.WHITE, shadow = true, func = 'set_button_pip'}
+                                                },
+                                            }
                                         },
                                     }
                                 },
-                            }
+                                {n=G.UIT.C, config={align = "cm", maxw = 1.3, padding = 0.05},
+                                    nodes=
+                                    {
+                                        {n=G.UIT.T, config={ref_table = G.GAME, ref_value = 'booster_rerolls', scale = 0.33, colour = reroll_display_color, shadow = true, func = 'set_button_pip'}},
+                                        {n=G.UIT.T, config={text = '/', padding = 0.1, scale = 0.32, colour = G.C.WHITE, shadow = true, func = 'set_button_pip'}},
+                                        {n=G.UIT.T, config={ref_table = G.GAME, ref_value = 'booster_rerolls_total', scale = 0.33, colour = G.C.WHITE, shadow = true, func = 'set_button_pip'}},
+                                    }
+                                }
+                            }        
                         },
                         -- Redraw hand button
-                        {
-                            n=G.UIT.R,
-                            config={
-                                ref_table = self,
-                                align = "tm",
-                                padding = 0.15,
-                                minh = 0.30,
-                                minw = 1.55,
-                                r=0.15,
-                                colour = G.C.RED,
-                                one_press = false,
-                                button = 'redraw_hand',
-                                hover = true,
-                                shadow = true,
-                                func = 'can_redraw_hand'
-                            }, 
-                            nodes = {
+                        {n=G.UIT.R,config={align = "cm", padding = 0.03},
+                            nodes =
+                            {
                                 {
-                                    n=G.UIT.R,
-                                    config={align = "cm", maxw = 1.3},
-                                    nodes={
+                                    n=G.UIT.C,
+                                    config={
+                                        ref_table = self,
+                                        align = "cm",
+                                        padding = 0.11,
+                                        minh = 0.20,
+                                        minw = 1.55,
+                                        r=0.12,
+                                        colour = G.C.RED,
+                                        one_press = false,
+                                        button = 'redraw_hand',
+                                        hover = true,
+                                        shadow = true,
+                                        func = 'can_redraw_hand'
+                                    }, 
+                                    nodes = {
                                         {
-                                            n=G.UIT.T,
-                                            config={text = localize('k_redraw'), scale = 0.4, colour = G.C.WHITE, shadow = true, func = 'set_button_pip'}
+                                            n=G.UIT.R,
+                                            config={align = "cm", maxw = 1.3},
+                                            nodes={
+                                                {
+                                                    n=G.UIT.T,
+                                                    config={text = localize('k_redraw'), scale = 0.35, colour = G.C.WHITE, shadow = true, func = 'set_button_pip'}
+                                                },
+                                            }
                                         },
                                     }
                                 },
-                            }
-                        },
-                    }
-                },
-                -- Display rerolls remaining
-                {n=G.UIT.C,config={align = "cm", padding = 0.2},
-                    nodes = {
-                        {n=G.UIT.R, config={align = "cm", maxw = 1.3},
-                            nodes=
-                            {
-                                {n=G.UIT.T, config={ref_table = G.GAME, ref_value = 'booster_rerolls', scale = 0.4, colour = reroll_display_color, shadow = true, func = 'set_button_pip'}},
-                                {n=G.UIT.T, config={text = '/', scale = 0.35, colour = G.C.WHITE, shadow = true, func = 'set_button_pip'}},
-                                {n=G.UIT.T, config={ref_table = G.GAME, ref_value = 'booster_rerolls_total', scale = 0.35, colour = G.C.WHITE, shadow = true, func = 'set_button_pip'}},
-
-
-                            }
-                        }
-                    }
+                                {n=G.UIT.C, config={align = "cm", maxw = 1.3, padding = 0.05},
+                                    nodes=
+                                    {
+                                        {n=G.UIT.T, config={ref_table = G.GAME, ref_value = 'booster_redraws', scale = 0.33, colour = redraw_display_color, shadow = true, func = 'set_button_pip'}},
+                                        {n=G.UIT.T, config={text = '/', padding = 0.1, scale = 0.33, colour = G.C.WHITE, shadow = true, func = 'set_button_pip'}},
+                                        {n=G.UIT.T, config={ref_table = G.GAME, ref_value = 'booster_redraws_total', scale = 0.33, colour = G.C.WHITE, shadow = true, func = 'set_button_pip'}},
+                                    }
+                                }
+                            }        
+                        }            
+                    },
                 }
-            }             
-        },
-    }}
-    }}}}}}}}
+            }
+        }
+    }}}}}}}}}}
     return t
 end
 
@@ -141,7 +156,6 @@ G.FUNCS.can_reroll_pack = function(e)
         e.config.colour = G.C.UI.BACKGROUND_INACTIVE
         e.config.button = nil
     end
-
 end
 
 G.FUNCS.reroll_pack = function(e)
@@ -180,21 +194,20 @@ end
 
 G.FUNCS.can_redraw_hand = function(e)
     local c1 = e.config.ref_table
-    if #G.hand.cards > 0 and G.pack_cards and (G.pack_cards.cards[1]) and G.GAME.booster_rerolls > 0 and not HBR.is_rerolling_disabled(c1) then 
+    if #G.hand.cards > 0 and G.pack_cards and (G.pack_cards.cards[1]) and G.GAME.booster_rerolls > 0 and not HBR.is_redrawing_disabled(c1) then 
         e.config.colour = G.C.PALE_GREEN
         e.config.button = 'redraw_hand' 
     else
         e.config.colour = G.C.UI.BACKGROUND_INACTIVE
         e.config.button = nil
     end
-
 end
 
 G.FUNCS.redraw_hand = function(e)
     stop_use()
     local c1 = e.config.ref_table
     local card_count = #G.hand.cards
-    G.GAME.booster_rerolls = G.GAME.booster_rerolls - 1
+    G.GAME.booster_redraws = G.GAME.booster_redraws - 1
     
     G.FUNCS.draw_from_hand_to_deck()
     
@@ -212,22 +225,42 @@ HBR.is_rerolling_disabled = function(booster)
     return booster.disable_reroll
 end
 
-function add_booster_rerolls(amount)
+HBR.is_redrawing_disabled = function(booster)
+    return booster.disable_redraw
+end
+
+function add_booster_rerolls(rerolls, redraws)
+    if redraws then add_booster_redraws(redraws) end
     if not G.GAME.booster_rerolls_total then G.GAME.booster_rerolls_total = 0 end
     if not G.GAME.booster_rerolls then G.GAME.booster_rerolls = G.GAME.booster_rerolls_total end
     
-    if amount == 0 then return end
+    if rerolls == 0 then return end
     
-    G.GAME.booster_rerolls_total = G.GAME.booster_rerolls_total + amount
+    G.GAME.booster_rerolls_total = G.GAME.booster_rerolls_total + rerolls
     if G.GAME.booster_rerolls_total < 0 then G.GAME.booster_rerolls_total = 0 end
 
     if G.GAME.booster_rerolls > G.GAME.booster_rerolls_total then G.GAME.booster_rerolls = G.GAME.booster_rerolls_total
-    elseif amount > 0 then G.GAME.booster_rerolls = G.GAME.booster_rerolls + amount end
+    elseif rerolls > 0 then G.GAME.booster_rerolls = G.GAME.booster_rerolls + rerolls end
+end
+
+function add_booster_redraws(amount)
+    if not G.GAME.booster_redraws_total then G.GAME.booster_redraws_total = 0 end
+    if not G.GAME.booster_redraws then G.GAME.booster_redraws = G.GAME.booster_redraws_total end
+    
+    if amount == 0 then return end
+    
+    G.GAME.booster_redraws_total = G.GAME.booster_redraws_total + amount
+    if G.GAME.booster_redraws_total < 0 then G.GAME.booster_redraws_total = 0 end
+
+    if G.GAME.booster_redraws > G.GAME.booster_redraws_total then G.GAME.booster_redraws = G.GAME.booster_redraws_total
+    elseif amount > 0 then G.GAME.booster_redraws = G.GAME.booster_redraws + amount end
 end
 
 function reset_booster_rerolls()
     if not G.GAME.booster_rerolls_total then G.GAME.booster_rerolls_total = 0 end
+    if not G.GAME.booster_redraws_total then G.GAME.booster_redraws_total = 0 end
     G.GAME.booster_rerolls = G.GAME.booster_rerolls_total
+    G.GAME.booster_redraws = G.GAME.booster_redraws_total
 end
 
 -- Load test deck, if it's there

@@ -6,6 +6,6 @@ SMODS.Back {
         return { vars = { self.config.booster_rerolls } }
     end,
     apply = function(self, back)
-        add_booster_rerolls(self.config.booster_rerolls)
+        add_booster_rerolls(self.config.booster_rerolls, self.config.booster_rerolls)
     end
 }
