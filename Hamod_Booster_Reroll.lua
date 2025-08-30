@@ -1,6 +1,7 @@
 HBR = {}
 HBR.create_UIBox = function(self)
-    if not G.GAME.booster_rerolls_total or G.GAME.booster_rerolls_total == 0 then return false end
+    if not G.GAME.booster_rerolls_total and not G.GAME.booster_redraws_total then return false end
+    if (G.GAME.booster_rerolls_total and G.GAME.booster_rerolls_total == 0) or (G.GAME.booster_redraws_total and G.GAME.booster_redraws_total == 0) then return false end
 
     local reroll_display_color = G.C.WHITE
     local redraw_display_color = G.C.WHITE
@@ -194,7 +195,7 @@ end
 
 G.FUNCS.can_redraw_hand = function(e)
     local c1 = e.config.ref_table
-    if #G.hand.cards > 0 and G.pack_cards and (G.pack_cards.cards[1]) and G.GAME.booster_rerolls > 0 and not HBR.is_redrawing_disabled(c1) then 
+    if #G.hand.cards > 0 and G.pack_cards and (G.pack_cards.cards[1]) and G.GAME.booster_redraws > 0 and not HBR.is_redrawing_disabled(c1) then 
         e.config.colour = G.C.PALE_GREEN
         e.config.button = 'redraw_hand' 
     else
@@ -233,6 +234,9 @@ function add_booster_rerolls(args)
     if not G.GAME.booster_rerolls_total then G.GAME.booster_rerolls_total = 0 end
     if not G.GAME.booster_rerolls then G.GAME.booster_rerolls = G.GAME.booster_rerolls_total end
 
+    if not G.GAME.booster_redraws_total then G.GAME.booster_redraws_total = 0 end
+    if not G.GAME.booster_redraws then G.GAME.booster_redraws = G.GAME.booster_redraws_total end
+
     if args and type(args) == 'number' then
         args = {rerolls = args, redraws = args}
     end
@@ -260,12 +264,12 @@ function add_booster_rerolls(args)
 end
 
 function reset_booster_rerolls(args)
-    if not args or args.rerolls == true then
+    if not args or (args.rerolls and args.rerolls == true) then
         if not G.GAME.booster_rerolls_total then G.GAME.booster_rerolls_total = 0 end
         G.GAME.booster_rerolls = G.GAME.booster_rerolls_total
     end
 
-    if not args or args.redraws == true then
+    if not args or (args.redraws and args.redraws == true) then
         if not G.GAME.booster_redraws_total then G.GAME.booster_redraws_total = 0 end
         G.GAME.booster_redraws = G.GAME.booster_redraws_total
     end
