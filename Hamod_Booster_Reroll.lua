@@ -1,7 +1,7 @@
 HBR = {}
 HBR.create_UIBox = function(self)
     if not G.GAME.booster_rerolls_total and not G.GAME.booster_redraws_total then return false end
-    if (G.GAME.booster_rerolls_total and G.GAME.booster_rerolls_total == 0) or (G.GAME.booster_redraws_total and G.GAME.booster_redraws_total == 0) then return false end
+    if (G.GAME.booster_rerolls_total and G.GAME.booster_rerolls_total == 0) and (G.GAME.booster_redraws_total and G.GAME.booster_redraws_total == 0) then return false end
 
     local reroll_display_color = G.C.WHITE
     local redraw_display_color = G.C.WHITE
