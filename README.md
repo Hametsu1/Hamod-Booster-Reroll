@@ -23,50 +23,73 @@ It also exposes a simple API so other mods can integrate reroll functionality.
 
 ## 🧩 API for Mod Developers
 
-There are two variables inside the ``G.GAME`` object:
+There are four variables inside the ``G.GAME`` object:
 ```lua
 -- Total number of rerolls
 G.GAME.booster_rerolls_total
 
 -- Remaining rerolls. Resets back to the total number of rerolls at the start of each Ante
 G.GAME.booster_rerolls
+
+-- Total number of redraws
+G.GAME.booster_redraws_total
+
+-- Remaining redraws. Resets back to the total number of redraws at the start of each Ante
+G.GAME.booster_redraws
 ```
 
 Other mods can call the following functions:  
 
 ```lua
--- Increases the number of total rerolls by the specified amount. Can be negative.
+-- args can either be a single number or an object: args = {rerolls = 1, redraws = 1}
+-- Increases the number of total rerolls/redraws by the specified amount. Can be negative.
 -- If the total would be < 0 it's set to 0.
--- If remaining rerolls are above total rerolls, they get set to the number of total rerolls
--- If amount is positive, remaining rerolls are increased by the same amount
-add_booster_rerolls(amount)
+-- If remaining rerolls/redraws are above their total, they get set to the number of total rerolls/redraws
+-- If amount is positive, remaining rerolls/redraws are increased by the same amount
+add_booster_rerolls(args)
 
--- Resets the number of remaining rerolls to the number of total rerolls
-reset_booster_rerolls()
+-- args can either be ommited or be an object: args = {rerolls = true, redraws = true}
+-- Resets the number of remaining rerolls/redraws to their total. This is executed at the start of each Ante automatically
+reset_booster_rerolls(args)
 ```
 
-The tooltip can be included in the ``loc_vars`` function of another GameObject like this:
+The tooltips can be included in the ``loc_vars`` function of another GameObject like this:
 
 ```lua
 info_queue[#info_queue+1] = {key = "tt_booster_reroll", set = "Other"}
+info_queue[#info_queue+1] = {key = "tt_booster_redraw", set = "Other"}
 ```
 
-Boosters allow rerolling by default, but modded Boosters can set the property ``disable_reroll`` to disable the functionality.
+Boosters allow rerolling/redrawing by default, but modded Boosters can set the properties ``disable_reroll`` or ``disable_redraw`` respectively, to disable the functionality.
 
 ### Example:
 ```lua
--- Increases total rerolls by 3.
+-- Increases total rerolls and redraws by 3.
 add_booster_rerolls(3)
+add_booster_rerolls({rerolls = 3, redraws = 3})
 
--- Reduces total rerolls by 1.
-add_booster_rerolls(-1)
+-- Increases only total rerolls by 2
+add_booster_rerolls({rerolls = 2})
+
+-- Reduces only total redraws by 1
+add_booster_rerolls({redraws = -1})
+
+-- Resets remaining rerolls and redraws to their respective total
+reset_booster_rerolls()
+reset_booster_rerolls({rerolls = true, redraws = true})
+
+-- Resets only remaining rerolls
+reset_booster_rerolls({rerolls = true})
+
+-- Resets only remaining redraws
+reset_booster_rerolls({redraws = true})
 ```
 
 ---
 
 ## ⚠️ Notes  
 
-- The buttons only show up if ``G.GAME.booster_rerolls_total > 0``
+- The buttons only show up if ``G.GAME.booster_rerolls_total > 0`` or ``G.GAME.booster_redraws_total > 0``
 - Requires the latest version of **smods**.  
 - Compatibility with other mods that modify boosters is **not guaranteed**.  
 - Please report bugs or suggestions via the [Issue Tracker](./issues).  
